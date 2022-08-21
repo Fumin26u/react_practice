@@ -1,27 +1,25 @@
-import { useCallback, useState, memo } from "react";
-import {Child1} from "./components/Child1";
-import {Child4} from "./components/Child4";
+import { useContext } from "react";
 
-// memoを使いコンポーネントをメモ化
-export const App = memo(() => {
-    console.log("Appレンダリング");
+import { AdminFlagContext } from "./components/providers/AdminFlagProvider";
+import { Card } from "./components/Card";
 
-    const [num, setNum] = useState(0);
-    const onClickButton = () => {
-        setNum((prev) => prev + 1);
-    };
-    
-    // useCallbackを使い関数をメモ化
-    const onClickReset = useCallback(() => {
-        setNum(0);
-    }, []);
+export const App = () => {
+    // Context内のisAdminと更新関数を取得
+    const { isAdmin, setIsAdmin } = useContext(AdminFlagContext);
+    console.log("App");
+
+    // 管理者フラグ
+    // const [isAdmin, setIsAdmin] = useState(false);
+
+    // [切り替え]押下時
+    const onClickSwitch = () => setIsAdmin(!isAdmin);
 
     return (
-        <>
-            <button onClick={onClickButton}>ボタン</button>
-            <p>{num}</p>
-            <Child1 onClickReset={onClickReset} />
-            <Child4 />
-        </>
+        <div>
+            {/* 管理者フラグがTrueの時とそれ以外で文字を出し分け */}
+            {isAdmin ? <span>管理者です</span> : <span>管理者以外です</span>}
+            <button onClick={onClickSwitch}>切り替え</button>
+            <Card isAdmin={isAdmin} />
+        </div>
     );
-});
+};
