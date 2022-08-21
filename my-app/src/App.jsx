@@ -1,15 +1,24 @@
-import { ColoredMessage } from "./components/ColoredMessage";
+import { useState } from "react";
+import { Emotion } from "./components/Emotion";
+import { StyledComponents } from "./components/StyledComponents";
+import { StyledJsx } from "./components/StyledJsx";
+import { CssModules } from "./components/CssModules";
+import { ColoredMessage } from "./Archives/CSS-for-React/ColoredMessage";
 
 export const App = () => {
+    // Stateの定義
+    const [num, setNum] = useState(0);
+
     const onClickButton = () => {
-        alert();
+        // setNum(num + 1);
+        setNum((prev) => prev + 1);
     };
 
     // CSSオブジェクト
-    const contentPinkStyle = {
-        color: "pink",
-        fontSize: "20px"
-    }
+    // const contentPinkStyle = {
+    //     color: "pink",
+    //     fontSize: "20px"
+    // }
 
     return (
         // return以降は「1つのタグ」で囲われている必要がある 
@@ -21,6 +30,11 @@ export const App = () => {
             <ColoredMessage /* propsとしてColoredMessage関数に渡される→ */ color="blue">お元気ですか？</ColoredMessage>
             <ColoredMessage color="pink">元気です！</ColoredMessage>
             <button onClick={onClickButton}>ボタン</button>
+            <p>{num}</p>
+            <CssModules />
+            <StyledJsx />
+            <StyledComponents />
+            <Emotion />
         </div>
     );
 };
