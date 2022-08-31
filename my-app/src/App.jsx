@@ -1,9 +1,10 @@
 import styled from "styled-components";
-import { useState } from "react";
-import { TodoList } from "./components/TodoList";
+import React, { useState } from "react";
+// import { TodoList } from "./components/TodoList";
 
 export const App = () => {
     const [task, setTask] = useState("");
+    const [taskList, setNewTaskList] = React.useState([]);
 
     const handleChange = (e) => {
         setTask(() => e.target.value);
@@ -11,7 +12,9 @@ export const App = () => {
 
     const AddTask = () => {
         if (task === "") return;
-        alert("submitted: " + task);
+        
+        taskList.push(task);
+        setTask("");
     };
 
     const pBold = {
@@ -29,7 +32,12 @@ export const App = () => {
                 {/* タスク一覧 */}
                 <Tasks>
                     <p style={pBold}>未実施のタスク</p>
-                    <TodoList />
+                    {taskList.map((task, index) => (
+                        <li key={index}>
+                            <p>{task}</p>
+                            <button>完了</button>
+                        </li>
+                    ))}
                 </Tasks>
                 {/* 完了済みタスク一覧 */}
                 <Dones>
