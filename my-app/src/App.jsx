@@ -1,13 +1,15 @@
 import styled from "styled-components";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // import { TodoList } from "./components/TodoList";
 
 export const App = () => {
     const [task, setTask] = useState("");
     const [taskList, setNewTaskList] = React.useState([]);
+    const [doneList, setNewDoneList] = React.useState([]);
+    // console.log("reRendering")
 
     const handleChange = (e) => {
-        setTask(() => e.target.value);
+        setTask(e.target.value);
     };
 
     const AddTask = () => {
@@ -16,6 +18,28 @@ export const App = () => {
         taskList.push(task);
         setTask("");
     };
+
+    const AddDoneTask = (index) => {
+        doneList.push(taskList[index]);
+        taskList.splice(index, 1);
+        
+        const newTaskList = [...taskList];
+        const newDoneList = [...doneList];
+
+        setNewTaskList(newTaskList);
+        setNewDoneList(newDoneList);
+    }
+
+    const BackToTask = (index) => {
+        taskList.push(doneList[index]);
+        doneList.splice(index, 1);
+
+        const newTaskList = [...taskList];
+        const newDoneList = [...doneList];
+
+        setNewTaskList(newTaskList);
+        setNewDoneList(newDoneList);
+    }
 
     const pBold = {
         fontWeight: "bold"
@@ -32,16 +56,22 @@ export const App = () => {
                 {/* タスク一覧 */}
                 <Tasks>
                     <p style={pBold}>未実施のタスク</p>
-                    {taskList.map((task, index) => (
+                    {taskList.map((t, index) => (
                         <li key={index}>
-                            <p>{task}</p>
-                            <button>完了</button>
+                            <p>{t}</p>
+                            <Button onClick={() => AddDoneTask(index)}>完了</Button>
                         </li>
                     ))}
                 </Tasks>
                 {/* 完了済みタスク一覧 */}
                 <Dones>
                     <p style={pBold}>完了済みタスク</p>
+                    {doneList.map((d, index) => (
+                        <li key={index}>
+                            <p>{d}</p>
+                            <Button onClick={() => BackToTask(index)}>戻す</Button>
+                        </li>
+                    ))}
                 </Dones>
             </TodoContent>
         </TodoOrigin>
@@ -92,7 +122,7 @@ const TodoInput = styled.input`
 const TodoContent = styled.div`
     display: flex;
     justify-content: space-around;
-    align-items: center;  
+    /* align-items: center;   */
 `;
 
 const Tasks = styled.ul`
