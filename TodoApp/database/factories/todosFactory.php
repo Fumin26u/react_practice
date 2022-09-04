@@ -16,6 +16,7 @@ class todosFactory extends Factory
         return [
             //
             'todo_name' => $this->faker->text(10),
+            'todo_stats' => 'W',
         ];
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
+    protected $model = Todos::class;
     /**
      * Seed the application's database.
      *
@@ -15,8 +16,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-        Todos::factory(10)->make([
-            'todo_stats' => 'W',
-        ]);
+        Todos::factory(10)->create();
     }
 }
